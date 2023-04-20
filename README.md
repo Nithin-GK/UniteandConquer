@@ -16,11 +16,13 @@
 
 
 ## Environment setup 
+
 '''
-Create environment using conda env create -f environment.yml
+conda env create -f environment.yml
 '''
 
 ##  Demo 
+
 '''
 python gradio_set.py
 '''
