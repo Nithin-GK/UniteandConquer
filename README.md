@@ -43,7 +43,9 @@ Once you perform the above  steps, the models will automatically get downloaded 
 }
 ```
 
- This code is heavily reliant on:
+This code is heavily reliant on:
+```
 https://github.com/openai/guided-diffusion
 https://github.com/openai/glide-text2im
 https://github.com/FacePerceiver/facer
+```
