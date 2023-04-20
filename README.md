@@ -1,12 +1,45 @@
+# [CVPR'23] Unite and Conquer: Plug & Play Multi-Modal Synthesis using Diffusion Models
+
+:book: Paper: [``arXiv``](https://arxiv.org/abs/2211.09120v1)
+
+### [Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html/) | [Paper](https://arxiv.org/abs/2212.00793) | [Github][https://github.com/Nithin-GK/UniteandConquer] | [Huggingface][https://huggingface.co/spaces/gknithin/MultimodalDiffusion]
+[![][Github]][Github] [![][huggingface]][huggingface-demo]
+
+
+### Contributions:
+
+- We propose a diffusion-based solution for image generation under the presence of multimodal priors.
+- We tackle the problem of need for paired data for multimodal synthesis by deriving upon the flexible property of diffusion models.
+- Unlike existing methods, our method is easily scalable and can be incorporated with off-the-shelf models to add additional constraints
+
 # Simple Instructions for Running
 
 
-### Step-1: Create environment using conda env create -f environment.yml
-### Step-2: Activate env:- conda activate multimdoaldiff
-### Step-3: Run python gradio_set.py
+## Environment setup 
+'''
+Create environment using conda env create -f environment.yml
+'''
 
- Once you perform the above three steps, the models will automatically get downlaoded to your Directory. One that is finished,  you will get a local demo link which can be used to tey the generation models on your own. Feel free to check the internal components of the code!
+##  Demo 
+'''
+python gradio_set.py
+'''
 
+## Run python gradio_set.py
+
+Once you perform the above  steps, the models will automatically get downloaded to your Directory. One that is finished, the models will be automatically downloaded you will get a local demo link which can be used to tey the generation models on your own. More details about internal components of the code will be uploaded shortyl
+
+
+## Citation
+5. If you use our work, please use the following citation
+```
+@article{nair2022unite,
+  title={Unite and Conquer: Cross Dataset Multimodal Synthesis using Diffusion Models},
+  author={Nair, Nithin Gopalakrishnan and Bandara, Wele Gedara Chaminda and Patel, Vishal M},
+  journal={arXiv preprint arXiv:2212.00793},
+  year={2022}
+}
+```
 
  This code is heavily reliant on:
 https://github.com/openai/guided-diffusion
