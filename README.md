@@ -28,7 +28,6 @@ python gradio_set.py
 
 ```
 
-## Run python gradio_set.py
 
 Once you perform the above  steps, the models will automatically get downloaded to your Directory. One that is finished, the models will be automatically downloaded you will get a local demo link which can be used to tey the generation models on your own. More details about internal components of the code will be uploaded shortyl
 
