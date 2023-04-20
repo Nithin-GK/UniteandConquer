@@ -2,7 +2,7 @@
 
  Paper: [``arXiv``](https://arxiv.org/abs/2211.09120v1)
 
-### [Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html/) | [Paper](https://arxiv.org/abs/2212.00793) | [Github](https://github.com/Nithin-GK/UniteandConquer) | [Huggingface](https://huggingface.co/spaces/gknithin/MultimodalDiffusion)
+### [Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html) | [Paper](https://arxiv.org/abs/2212.00793) | [Github](https://github.com/Nithin-GK/UniteandConquer) | [Huggingface](https://huggingface.co/spaces/gknithin/MultimodalDiffusion)
 
 
 
