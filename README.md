@@ -17,14 +17,14 @@ From [VIU Lab](https://engineering.jhu.edu/vpatel36/), Johns Hopkins University
 ## Applications
 <img src="./utils/faces.png" width="100%">
 
-<img src="./utils/natural.png" width="50%">
+<img src="./utils/natural.png" width="100%">
 
 We propose **Unite and Conquer**, where users can use multiple modalities for face and generic image generation.
     *(a) Face Generation*. Given multi-modal controls, We can generate high-quality images consistent with the input conditions.
     *(b) Text and Class guided Genearation*. Users can input generic scenes and Imagenet classes to generate images with unlikely scenarios.
 
 <br>
-<img src="./utils/intropng.png" width="100%">
+<img src="./utils/intropng.png" width="50%">
 
 ### Contributions:
 
