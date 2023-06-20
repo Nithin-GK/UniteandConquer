@@ -13,6 +13,32 @@ From [VIU Lab](https://engineering.jhu.edu/vpatel36/), Johns Hopkins University
 [[Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html)] |
 [[Video](https://youtu.be/N4EOwnhNzIk)]
 
+# Unite and Conquer (CVPR 2023)
+
+
+This repository contains the implementation of the paper:
+> **Unite and Conquer: Plug & Play Multi-Modal Synthesis using Diffusion Models**<br>
+> [Nithin Gopalakrishnan Nair](https://nithin-gk.github.io/), [Chaminda Bandara](https://www.wgcban.com/), [Vishal M Patel](https://engineering.jhu.edu/vpatel36/vishal-patel/)
+
+IEEE/CVF International Conference on Computer Vision (**CVPR**), 2023
+
+From [VIU Lab](https://engineering.jhu.edu/vpatel36/) Johns Hopkins University
+
+[[Paper](https://openaccess.thecvf.com/content/CVPR2023/papers/Nair_Unite_and_Conquer_Plug__Play_Multi-Modal_Synthesis_Using_Diffusion_CVPR_2023_paper.pdf)] |
+[[Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html)] |
+[[Video](https://youtu.be/N4EOwnhNzIk)]
+
+
+## Applications
+<img src="./assets/face.jpg" width="100%">
+
+<img src="./assets/natural.jpg" width="100%">
+
+We propose **Unite and Conquer**, where users can use multiple modalities for face and generic image generation.
+    *(a) Face Generation*. Given multi-modal controls, We can generate high-quality images consistent with the input conditions.
+    *(b) Text and Classguided Genearation*. Users can input generic scenes and Imagenet classes that are unlikely to be present in that scene to generate an image.
+
+<br>
 
 ### Contributions:
 
