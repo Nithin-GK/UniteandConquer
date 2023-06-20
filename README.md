@@ -25,15 +25,16 @@ We propose **Unite and Conquer**, where users can use multiple modalities for fa
 
 <br>
 
-<p align="center">
-  <img src="./utils/intropng.png" alt="Centered Image" style="width: 50%;">
-</p>
 
 ### Contributions:
 
 - We propose a diffusion-based solution for image generation under the presence of multimodal priors.
 - We tackle the problem of need for paired data for multimodal synthesis by deriving upon the flexible property of diffusion models.
 - Unlike existing methods, our method is easily scalable and can be incorporated with off-the-shelf models to add additional constraints
+
+<p align="center">
+  <img src="./utils/intropng.png" alt="Centered Image" style="width: 50%;">
+</p>
 
 # Simple Instructions for Running
 
