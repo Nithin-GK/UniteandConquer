@@ -25,20 +25,9 @@ We propose **Unite and Conquer**, where users can use multiple modalities for fa
 
 <br>
 
-<head>
-  <style>
-    .center-image {
-      display: flex;
-      justify-content: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="center-image">
-    <img src="./utils/intropng.png" style="width: 50%;" alt="Centered Image">
-  </div>
-</body>
-<!-- <center><img src="./utils/intropng.png" width="50%"></center> -->
+<p align="center">
+  <img src="./utils/intropng.png" alt="Centered Image" style="width: 50%;">
+</p>
 
 ### Contributions:
 
