@@ -24,6 +24,7 @@ We propose **Unite and Conquer**, where users can use multiple modalities for fa
     *(b) Text and Class guided Genearation*. Users can input generic scenes and Imagenet classes to generate images with unlikely scenarios.
 
 <br>
+<img src="./utils/intropng.png" width="100%">
 
 ### Contributions:
 
