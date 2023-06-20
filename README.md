@@ -15,9 +15,9 @@ From [VIU Lab](https://engineering.jhu.edu/vpatel36/) Johns Hopkins University
 
 
 ## Applications
-<img src="./assets/face.jpg" width="100%">
+<img src="./utils/faces.png" width="100%">
 
-<img src="./assets/natural.jpg" width="100%">
+<img src="./utils/natural.png" width="100%">
 
 We propose **Unite and Conquer**, where users can use multiple modalities for face and generic image generation.
     *(a) Face Generation*. Given multi-modal controls, We can generate high-quality images consistent with the input conditions.
