@@ -21,7 +21,7 @@ From [VIU Lab](https://engineering.jhu.edu/vpatel36/) Johns Hopkins University
 
 We propose **Unite and Conquer**, where users can use multiple modalities for face and generic image generation.
     *(a) Face Generation*. Given multi-modal controls, We can generate high-quality images consistent with the input conditions.
-    *(b) Text and Classguided Genearation*. Users can input generic scenes and Imagenet classes that are unlikely to be present in that scene to generate an image.
+    *(b) Text and Class guided Genearation*. Users can input generic scenes and Imagenet classes that are unlikely to be present in that scene to generate an image.
 
 <br>
 
