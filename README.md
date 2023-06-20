@@ -1,9 +1,17 @@
-# [CVPR '23] Unite and Conquer: Plug & Play Multi-Modal Synthesis using Diffusion Models
+# Unite and Conquer (CVPR 2023)
 
- Paper: [``arXiv``](https://arxiv.org/abs/2211.09120v1)
 
-### [Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html) | [Paper](https://arxiv.org/abs/2212.00793) | [Github](https://github.com/Nithin-GK/UniteandConquer) | [Huggingface](https://huggingface.co/spaces/gknithin/MultimodalDiffusion)
+This repository contains the implementation of the paper:
+> **Unite and Conquer: Plug & Play Multi-Modal Synthesis using Diffusion Models**<br>
+> [Nithin Gopalakrishnan Nair](https://nithin-gk.github.io/), [Chaminda Bandara](https://www.wgcban.com/), [Vishal M Patel](https://engineering.jhu.edu/vpatel36/vishal-patel/)
 
+IEEE/CVF International Conference on Computer Vision (**CVPR**), 2023
+
+From [VIU Lab](https://engineering.jhu.edu/vpatel36/) Johns Hopkins University
+
+[[Paper](https://openaccess.thecvf.com/content/CVPR2023/papers/Nair_Unite_and_Conquer_Plug__Play_Multi-Modal_Synthesis_Using_Diffusion_CVPR_2023_paper.pdf)] |
+[[Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html)] |
+[[Video](https://youtu.be/N4EOwnhNzIk)]
 
 
 ### Contributions:
