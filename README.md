@@ -1,4 +1,4 @@
-# [CVPR'23] Unite and Conquer: Plug & Play Multi-Modal Synthesis using Diffusion Models
+# [CVPR '23] Unite and Conquer: Plug & Play Multi-Modal Synthesis using Diffusion Models
 
  Paper: [``arXiv``](https://arxiv.org/abs/2211.09120v1)
 
