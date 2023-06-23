@@ -13,7 +13,7 @@ From [VIU Lab](https://engineering.jhu.edu/vpatel36/), Johns Hopkins University
 [[Project Page](https://nithin-gk.github.io/projectpages/Multidiff/index.html)] |
 [[Video](https://youtu.be/N4EOwnhNzIk)]
 
-Keywords: Multimodal Generation, Semantic Face Generation, Multimodal Face generation, Text to image generation
+Keywords: Multimodal Generation, Semantic Face Generation, Multimodal Face generation, Text to image generation, Diffusion based Face Generation, Text to Image Generation, Text to Face Generation
 
 ## Applications
 <img src="./utils/faces.png" width="100%">
