@@ -15,11 +15,6 @@ import numpy as np
 from face_utils.diff_test import diffusion_test
 import torch as th
 
-from class_utils.script_util import (
-    create_model_and_diffusion,
-    model_and_diffusion_defaults,
-
-)
 from text_utils.text_diffusion import create_model_and_diffusion as text_create
 from text_utils.text_diffusion import model_and_diffusion_defaults as text_defaults
 from text_utils.text_diffusion import model_and_diffusion_defaults_upsampler
@@ -31,7 +26,8 @@ def preprocess_image(image):
         image = np.transpose(image , [2, 0, 1])
         image = np.expand_dims(image,0)
     except:
-        image=0
+        print("path not found")
+        exit()
     return image
 
 def list_to_bool_list(modal):
@@ -42,7 +38,7 @@ def list_to_bool_list(modal):
             ret_list[i]=True
     return ret_list
 
-class Multimodalgradio:
+class Multimodalface:
     def __init__(self):
         options_diffusion =sr_model_and_diffusion_defaults()
         self.face_multimodal,self.face_diffusion = sr_create_model_and_diffusion(**options_diffusion)
@@ -56,37 +52,8 @@ class Multimodalgradio:
         self.sketch_model.convert_to_fp16()
         self.load_model(self.sketch_model,"./weights/model_sketch.pt")
 
-        options_model1 = model_and_diffusion_defaults()
-        options_model1['use_fp16'] = True
-        options_model1['timestep_respacing'] = '100' # use 27 diffusion steps for very fast sampling
-        self.class_model, self.class_diffusion = create_model_and_diffusion(
-        **options_model1 
-        )    
-        self.class_model.to(dist_util.dev())
-        self.load_model(self.class_model,"./weights/64x64_diffusion.pt")
-        self.class_model.convert_to_fp16()
-
-
-        text_options = text_defaults()
-        self.model_text,_ =text_create(**text_options)
-        self.model_text.to(dist_util.dev())
-        self.model_text.convert_to_fp16()
-        self.load_model(self.model_text,"./weights/base.pt")
-
-
-        options_up = model_and_diffusion_defaults_upsampler()
-        options_up['use_fp16'] = True
-        options_up['timestep_respacing'] = '100' 
-        self.model_up, self.diffusion_up = text_create(**options_up)
-        self.model_up.convert_to_fp16()
-        self.load_model(self.model_up,'./weights/upsample.pt')
-        self.model_up.to(dist_util.dev())
-
         self.face_multimodal.eval()
         self.sketch_model.eval()
-        self.class_model.eval()
-        self.model_text.eval()
-        self.model_up.eval()
 
     def load_model(self,model,path):
         model.load_state_dict(
@@ -109,7 +76,6 @@ class Multimodalgradio:
 
 
     def face_images(self, Text = None, face_image=None,hair_image=None,sketch_image=None, modalities_use = ['Face_map','Hair_map','Sketch','Text'],num_samples=1):
-        args = self.create_argparser()
         args_pass={}
         modalities_use=list_to_bool_list(modalities_use)
 
@@ -151,3 +117,91 @@ class Multimodalgradio:
         add_dict_to_argparser(parser, defaults)
         args=parser.parse_args()
         return args_to_dict(args, defaults.keys())
+    
+def find_modalities_use(path):
+    modalities=[]
+    if(path[0] is not None):
+        modalities.append('Face_map')
+    if(path[1] is not None):
+        modalities.append('Hair_map')
+    if(path[2] is not None):
+        modalities.append('Sketch')
+    if(path[3] is not None):
+        modalities.append('Text')
+    return modalities
+
+def list_files(path):
+    if path is not None:
+        files = os.listdir(path)
+        files.sort()
+        return files
+    
+
+def path_to_data(path):
+    if path is not None:
+        files = list_files(path)
+        return files
+    else:
+        return None
+    
+
+def file_or_none(path1,path2):
+        try:
+            face_file=os.path.join(path1,path2)
+            if os.path.exists(face_file) ==False:
+                return None
+            else:
+                return face_file
+        except:
+            return None
+
+def paired_data_loader(face_path=None,hair_path=None,text_path=None,sketch_path=None):
+    face_files = path_to_data(face_path)
+    hair_files = path_to_data(hair_path)
+    sketch_files = path_to_data(sketch_path)
+
+    if text_path is not None:
+        text_dict={}
+        with open(text_path) as f:
+            text = f.readlines()
+        for _ in text:
+            text = _.strip('\n').split(':')
+            text_dict[text[0]]=text[1]
+    
+    paired_data=[]
+
+
+    for i in range(len(face_path)):
+            face_file=file_or_none(face_path,face_path[i])
+            hair_file=file_or_none(hair_path,face_path[i])
+            sketch_file=file_or_none(sketch_path,sketch_path[i])
+            try:
+                text=text_dict[face_path[i]]
+            except:
+                text=None
+            data_points=[face_file,hair_file,sketch_file,text]
+            modalities=find_modalities_use(data_points)
+
+            paired_data.append([data_points, modalities])
+
+    return paired_data
+
+import argparse
+
+if __name__ == "__main__":
+    multimodal = Multimodalface()
+
+
+
+    parser = argparse.ArgumentParser(description='Multimodal face generation')
+    parser.add_argument('--hair_dir', type=str, default=None, help='Input hair semantic maps')
+    parser.add_argument('--face_dir', type=str, default=None,help='Input face semantic maps')
+    parser.add_argument('--sketch_dir', type=str, default=None,help='Input sketch')
+    parser.add_argument('--text_dir', type=str, default=None,help='Input text conditoning')
+    parser.add_argument('--num_samples', type=int, default=1,help='Input face semantic maps')
+
+
+    args = parser.parse_args()
+    data = paired_data_loader(args.hair_dir,args.face_dir,args.text_dir,args.sketch_dir)
+    for i in range(len(data)):
+        multimodal.face_images(data[i][0][3],data[i][0][0],data[i][0][1],data[i][0][2],data[i][1],args.num_samples)
