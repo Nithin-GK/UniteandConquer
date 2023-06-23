@@ -32,18 +32,49 @@ We propose **Unite and Conquer**, where users can use multiple modalities for fa
 - We tackle the problem of need for paired data for multimodal synthesis by deriving upon the flexible property of diffusion models.
 - Unlike existing methods, our method is easily scalable and can be incorporated with off-the-shelf models to add additional constraints
 
-<p align="center">
+<!-- <p align="center">
   <img src="./utils/intropng.png" alt="Centered Image" style="width: 50%;">
-</p>
-
-# Simple Instructions for Running
-
+</p> -->
 
 ## Environment setup 
+
 
 ```
 conda env create -f environment.yml
 ```
+
+
+## Pretrained models:
+
+Please download the pretrained models using
+```
+python download_models.py
+```
+
+
+# Testing On custom datasets 
+
+## Data Preparation
+You can test on any custom datasets by arranding the data in the following format. Please note that you can choose to give either one or more modalities
+```
+    ├── data 
+    |   ├── face_map 
+    |   └── hair_map  
+    |   └── sketches
+    |   └── text.txt
+
+```
+
+## Testing code
+Test on custom data using:
+```
+python test_multimodal_face.py --data_path /path/to/data --face_map --hair_map --text
+```
+
+Please set the flags you need for generation
+##  Instructions for Interactive Demo
+
+
 ##  Demo 
 
 

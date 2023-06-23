@@ -155,32 +155,52 @@ def file_or_none(path1,path2):
         except:
             return None
 
-def paired_data_loader(face_path=None,hair_path=None,text_path=None,sketch_path=None):
-    face_files = path_to_data(face_path)
-    hair_files = path_to_data(hair_path)
-    sketch_files = path_to_data(sketch_path)
+def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketch_use=None):
+    if face_use:
+        face_files = path_to_data(os.path.join(data_path,'face_map'))
+        len_files=len(face_files)
+    if hair_use:
+        hair_files = path_to_data(os.path.join(data_path,'hair_map'))
+        len_files=len(hair_files)
 
-    if text_path is not None:
+    if sketch_use:
+        sketch_files =  path_to_data(os.path.join(data_path,'sketch'))
+        len_files=len(face_files)
+
+    if text_use:
         text_dict={}
-        with open(text_path) as f:
+        with open(os.path.join(data_path,'text.txt'),'r+') as f:
             text = f.readlines()
+        len_files=len(text)
         for _ in text:
             text = _.strip('\n').split(':')
             text_dict[text[0]]=text[1]
-    
+        
     paired_data=[]
 
 
-    for i in range(len(face_path)):
-            face_file=file_or_none(face_path,face_path[i])
-            hair_file=file_or_none(hair_path,face_path[i])
-            sketch_file=file_or_none(sketch_path,sketch_path[i])
-            try:
-                text=text_dict[face_path[i]]
-            except:
-                text=None
+    for i in range(len(len_files)):
+            if face_use:
+                face_file=file_or_none(os.path.join(data_path,'face_map'),face_files[i])
+                textpath=face_files[i]
+            if hair_use:
+                hair_file=file_or_none(os.path.join(data_path,'hair_map'),face_files[i])
+                textpath=hair_files[i]
+
+            if sketch_use:
+                sketch_file=file_or_none(os.path.join(data_path,'sketch'),sketch_files[i])
+                textpath=sketch_files[i]
+            if text_use:
+
+                try:
+                    text=text_dict[textpath]
+                except:
+                    try:
+                        text=text_dict[text_dict[i]]
+                    except:
+                        text=None
             data_points=[face_file,hair_file,sketch_file,text]
-            modalities=find_modalities_use(data_points)
+            modalities=[text_use,face_use,hair_use,sketch_use]
 
             paired_data.append([data_points, modalities])
 
@@ -194,14 +214,14 @@ if __name__ == "__main__":
 
 
     parser = argparse.ArgumentParser(description='Multimodal face generation')
-    parser.add_argument('--hair_dir', type=str, default=None, help='Input hair semantic maps')
-    parser.add_argument('--face_dir', type=str, default=None,help='Input face semantic maps')
-    parser.add_argument('--sketch_dir', type=str, default=None,help='Input sketch')
-    parser.add_argument('--text_dir', type=str, default=None,help='Input text conditoning')
-    parser.add_argument('--num_samples', type=int, default=1,help='Input face semantic maps')
-
+    parser.add_argument('--data_path', type=str, default=None, help='Input path')
+    parser.add_argument('--face_dir', action='store_true', help='Use face')
+    parser.add_argument('--hair_dir', action='store_true', help='Use hair')
+    parser.add_argument('--sketch_dir', action='store_true', help='Use sketch')
+    parser.add_argument('--text_dir', action='store_true', help='Use text')
+    parser.add_argument('--num_samples', type=int, default=1,help='number of samples to generate')
 
     args = parser.parse_args()
-    data = paired_data_loader(args.hair_dir,args.face_dir,args.text_dir,args.sketch_dir)
+    data = paired_data_loader(args.data_path,args.hair_dir,args.face_dir,args.text_dir,args.sketch_dir)
     for i in range(len(data)):
         multimodal.face_images(data[i][0][3],data[i][0][0],data[i][0][1],data[i][0][2],data[i][1],args.num_samples)

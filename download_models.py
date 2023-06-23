@@ -122,3 +122,6 @@ def download_files():
         model= fetch_file_cached(MODEL_PATHS[_],_)
 
     
+
+if __name__ == "__main__":
+    download_files()
