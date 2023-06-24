@@ -91,11 +91,12 @@ Once you perform the above  steps, the models will automatically get downloaded 
 ## Citation
 5. If you use our work, please use the following citation
 ```
-@article{nair2022unite,
-  title={Unite and Conquer: Cross Dataset Multimodal Synthesis using Diffusion Models},
+@inproceedings{nair2023unite,
+  title={Unite and Conquer: Plug \& Play Multi-Modal Synthesis Using Diffusion Models},
   author={Nair, Nithin Gopalakrishnan and Bandara, Wele Gedara Chaminda and Patel, Vishal M},
-  journal={arXiv preprint arXiv:2212.00793},
-  year={2022}
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={6070--6079},
+  year={2023}
 }
 ```
 
