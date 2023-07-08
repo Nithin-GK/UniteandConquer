@@ -65,6 +65,14 @@ You can test on any custom datasets by arranding the data in the following forma
     |   └── text.txt
 
 ```
+text.txt should be of the format
+```
+image_name : Text caption
+```
+An example would be:
+```
+0.jpg : This person wears eyeglasses
+```
 
 ## Testing code
 Test on custom data using:
@@ -72,7 +80,7 @@ Test on custom data using:
 python test_multimodal_face.py --data_path /path/to/data --face_map --hair_map --text
 ```
 
-Please set the flags you need for generation
+Please set the flags you need for the generation.
 ##  Instructions for Interactive Demo
 
 
