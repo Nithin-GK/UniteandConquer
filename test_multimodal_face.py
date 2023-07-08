@@ -22,6 +22,8 @@ from guided_diffusion.diffusion_test import test_diff
 
 def preprocess_image(image):
     try:
+        image =Image.open(image).convert("RGB")
+        image=image.resize((256,256))
         image = np.array(image).astype(np.float32)/127.5-1.0
         image = np.transpose(image , [2, 0, 1])
         image = np.expand_dims(image,0)
@@ -76,30 +78,25 @@ class Multimodalface:
 
 
     def face_images(self, Text = None, face_image=None,hair_image=None,sketch_image=None, modalities_use = ['Face_map','Hair_map','Sketch','Text'],num_samples=1):
-        args_pass={}
-        modalities_use=list_to_bool_list(modalities_use)
-
-        try:
-                args_pass['Face_map']=preprocess_image(face_image)
-                args_pass['Hair_map']=preprocess_image(hair_image)
-                args_pass['Sketch']=preprocess_image(sketch_image)
+                args_pass={}
+                # modalities_use=list_to_bool_list(modalities_use)
+                if face_image is not None:
+                    args_pass['Face_map']=preprocess_image(face_image)
+                if hair_image is not None:
+                    args_pass['Hair_map']=preprocess_image(hair_image)
+                else:
+                    args_pass['Sketch']=preprocess_image(face_image)
+                # print("here", sketch_image)
+                if sketch_image is not None:
+                    args_pass['Sketch']=preprocess_image(sketch_image)
+                else:
+                    args_pass['Sketch']=preprocess_image(face_image)
                 args_pass['Text']=Text
                 args_pass['num_samples']=num_samples
-                args_pass['modalities']=np.array(modalities_use,dtype=bool)
+                args_pass['modalities']=modalities_use
 
-        except:
-
-            face_image =  Image.open(args['Face_path']).convert("RGB")
-            hair_image =  Image.open(args['Hair_path']).convert("RGB")
-            sketch_image =  Image.open(args['sketch_path']).convert("RGB")
-            args_pass['Text']= "This person wears eyeglasses."
-            args_pass['Face_map']=preprocess_image(face_image)
-            args_pass['Hair_map']=preprocess_image(hair_image)
-            args_pass['Sketch']=preprocess_image(sketch_image)
-            args_pass['num_samples']=num_samples
-            args_pass['modalities']=np.array(modalities_use,dtype=bool)
-        result = diffusion_test(self.face_multimodal,self.sketch_model,self.face_diffusion,**args_pass)
-        return result
+                result = diffusion_test(self.face_multimodal,self.sketch_model,self.face_diffusion,**args_pass)
+                return result
 
     def create_argparser(self):
         defaults = dict(
@@ -120,14 +117,12 @@ class Multimodalface:
     
 def find_modalities_use(path):
     modalities=[]
-    if(path[0] is not None):
-        modalities.append('Face_map')
-    if(path[1] is not None):
-        modalities.append('Hair_map')
-    if(path[2] is not None):
-        modalities.append('Sketch')
-    if(path[3] is not None):
-        modalities.append('Text')
+    for i in range(len(path)):
+        if(path[i] is not None):
+            modalities.append(True)
+        else:
+            modalities.append(False)
+
     return modalities
 
 def list_files(path):
@@ -174,12 +169,11 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
         len_files=len(text)
         for _ in text:
             text = _.strip('\n').split(':')
-            text_dict[text[0]]=text[1]
-        
+            text_dict[text[0].strip(' ')]=text[1]
     paired_data=[]
 
 
-    for i in range(len(len_files)):
+    for i in range(len_files):
             if face_use:
                 face_file=file_or_none(os.path.join(data_path,'face_map'),face_files[i])
                 textpath=face_files[i]
@@ -190,8 +184,10 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
             if sketch_use:
                 sketch_file=file_or_none(os.path.join(data_path,'sketch'),sketch_files[i])
                 textpath=sketch_files[i]
-            if text_use:
+            else:
+                sketch_file=None
 
+            if text_use:
                 try:
                     text=text_dict[textpath]
                 except:
@@ -200,8 +196,7 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
                     except:
                         text=None
             data_points=[face_file,hair_file,sketch_file,text]
-            modalities=[text_use,face_use,hair_use,sketch_use]
-
+            modalities=[face_use,hair_use,text_use, sketch_use]
             paired_data.append([data_points, modalities])
 
     return paired_data
@@ -215,13 +210,14 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Multimodal face generation')
     parser.add_argument('--data_path', type=str, default=None, help='Input path')
-    parser.add_argument('--face_dir', action='store_true', help='Use face')
-    parser.add_argument('--hair_dir', action='store_true', help='Use hair')
-    parser.add_argument('--sketch_dir', action='store_true', help='Use sketch')
-    parser.add_argument('--text_dir', action='store_true', help='Use text')
+    parser.add_argument('--face_map', action='store_true', help='Use face')
+    parser.add_argument('--hair_map', action='store_true', help='Use hair')
+    parser.add_argument('--sketch_map', action='store_true', help='Use sketch')
+    parser.add_argument('--text', action='store_true', help='Use text')
     parser.add_argument('--num_samples', type=int, default=1,help='number of samples to generate')
 
     args = parser.parse_args()
-    data = paired_data_loader(args.data_path,args.hair_dir,args.face_dir,args.text_dir,args.sketch_dir)
+    data = paired_data_loader(args.data_path,args.hair_map,args.face_map,args.text,args.sketch_map)
     for i in range(len(data)):
+        print(data[i][1])
         multimodal.face_images(data[i][0][3],data[i][0][0],data[i][0][1],data[i][0][2],data[i][1],args.num_samples)

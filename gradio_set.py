@@ -12,7 +12,7 @@ import os
 idx2label = []
 cls2label = {}
 from scripts.multimodal_gradio import Multimodalgradio
-from download_models import download_files
+from download_models_func import download_files
 
 download_files()
 uniconquer =Multimodalgradio()
