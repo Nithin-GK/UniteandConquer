@@ -160,7 +160,7 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
 
     if sketch_use:
         sketch_files =  path_to_data(os.path.join(data_path,'sketch'))
-        len_files=len(face_files)
+        len_files=len(sketch_files)
 
     if text_use:
         text_dict={}
@@ -177,10 +177,13 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
             if face_use:
                 face_file=file_or_none(os.path.join(data_path,'face_map'),face_files[i])
                 textpath=face_files[i]
+            else :
+                face_file=None
             if hair_use:
-                hair_file=file_or_none(os.path.join(data_path,'hair_map'),face_files[i])
+                hair_file=file_or_none(os.path.join(data_path,'hair_map'),hair_files[i])
                 textpath=hair_files[i]
-
+            else :
+                hair_file=None
             if sketch_use:
                 sketch_file=file_or_none(os.path.join(data_path,'sketch'),sketch_files[i])
                 textpath=sketch_files[i]
