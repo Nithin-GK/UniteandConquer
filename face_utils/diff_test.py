@@ -49,7 +49,14 @@ def save_images(images,direcs, name_text, modality):
     cv2.imwrite(imgname,images[1][:,:,::-1])
     cv2.imwrite(imggridname,images[0][:,:,::-1])
 
-    
+
+def map_to_map(model_kwargs,key,noise):
+    if key in model_kwargs:
+        return model_kwargs[key]
+
+    else:
+            return noise
+
 
 def diffusion_test(model1, model2,diffusion, **args):
         text_embedder = Get_embeds()
@@ -60,13 +67,18 @@ def diffusion_test(model1, model2,diffusion, **args):
                     if('Text' in k):
                         text=v       
                     else:
+                        text=''
                         model_kwargs[k]= th.tensor(v).to(dist_util.dev())
                 micro_embed =text_embedder.forward_text(text)
                 micro_embed /= micro_embed.norm(dim=-1, keepdim=True)
                 rt=th.clone(micro_embed)
-                face_map=th.clone(model_kwargs['Face_map'])
-                hair_map=th.clone(model_kwargs['Hair_map'])
-                sketch_map=th.clone(model_kwargs['Sketch'])
+
+                shape=(1,3,256,256)
+                noise=th.zeros(shape).cuda()
+         
+                face_map=map_to_map(model_kwargs,'Face_map', noise)
+                hair_map=map_to_map(model_kwargs,'Hair_map', noise)
+                sketch_map=map_to_map(model_kwargs,'Sketch', noise)
 
                 batch_size=args['num_samples']
                 hair_input =th.cat([hair_map*0, hair_map],1)
@@ -162,14 +174,14 @@ def diffusion_test(model1, model2,diffusion, **args):
                 sample = ((sample + 1) * 127.5).clamp(0, 255).to(th.uint8)
                 sample = sample.permute(0, 2, 3, 1)
                 sample = sample.contiguous()
-                blur_image = ((model_kwargs['Hair_map']+1)* 127.5).clamp(0, 255).to(th.uint8)
+                blur_image = ((hair_map+1)* 127.5).clamp(0, 255).to(th.uint8)
                 # sketch_image=((model_kwargs['sketch']+1)* 127.5).clamp(0, 255).to(th.uint8)
-                clean_image = ((model_kwargs['Face_map']+1)* 127.5).clamp(0, 255).to(th.uint8)
+                clean_image = ((face_map+1)* 127.5).clamp(0, 255).to(th.uint8)
                 blur_image= blur_image.permute(0, 2, 3, 1)
                 blur_image = blur_image.contiguous().cpu().numpy()
                 clean_image= clean_image.permute(0, 2, 3, 1)
                 clean_image= clean_image.contiguous().cpu().numpy()
-                sketch_image = ((model_kwargs['Sketch']+1)* 127.5).clamp(0, 255).to(th.uint8)
+                sketch_image = ((sketch_map+1)* 127.5).clamp(0, 255).to(th.uint8)
 
                 sketch_image= sketch_image.permute(0, 2, 3, 1)
                 sketch_image= sketch_image.contiguous().cpu().numpy()

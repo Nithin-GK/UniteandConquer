@@ -22,6 +22,7 @@ from guided_diffusion.diffusion_test import test_diff
 
 def preprocess_image(image):
     try:
+        print(image)
         image =Image.open(image).convert("RGB")
         image=image.resize((256,256))
         image = np.array(image).astype(np.float32)/127.5-1.0
@@ -33,7 +34,7 @@ def preprocess_image(image):
     return image
 
 def list_to_bool_list(modal):
-    map_dict =  ['Face_map','Hair_map','Text','Sketch']
+    map_dict =  ['Face_map','Hair_map',"Text","Sketch"]
     ret_list=[False]*4
     for i in range(len(map_dict)):
         if(map_dict[i] in modal):
@@ -77,15 +78,15 @@ class Multimodalface:
         return img
 
 
-    def face_images(self, Text = None, face_image=None,hair_image=None,sketch_image=None, modalities_use = ['Face_map','Hair_map','Sketch','Text'],num_samples=1):
+    def face_images(self, Text = None, face_image=None,hair_image=None,sketch_image=None, modalities_use = ['Face_map','Hair_map','Text','Sketch'],num_samples=1):
                 args_pass={}
                 # modalities_use=list_to_bool_list(modalities_use)
                 if face_image is not None:
                     args_pass['Face_map']=preprocess_image(face_image)
                 if hair_image is not None:
                     args_pass['Hair_map']=preprocess_image(hair_image)
-                else:
-                    args_pass['Sketch']=preprocess_image(face_image)
+                # else:
+                #     args_pass['Sketch']=preprocess_image(face_image)
                 # print("here", sketch_image)
                 if sketch_image is not None:
                     args_pass['Sketch']=preprocess_image(sketch_image)
@@ -143,7 +144,7 @@ def path_to_data(path):
 def file_or_none(path1,path2):
         try:
             face_file=os.path.join(path1,path2)
-            if os.path.exists(face_file) ==False:
+            if os.path.exists(face_file) == False:
                 return None
             else:
                 return face_file
@@ -160,7 +161,7 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
 
     if sketch_use:
         sketch_files =  path_to_data(os.path.join(data_path,'sketch'))
-        len_files=len(face_files)
+        len_files=len(sketch_files)
 
     if text_use:
         text_dict={}
@@ -177,9 +178,13 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
             if face_use:
                 face_file=file_or_none(os.path.join(data_path,'face_map'),face_files[i])
                 textpath=face_files[i]
+            else:
+                face_file=None
             if hair_use:
                 hair_file=file_or_none(os.path.join(data_path,'hair_map'),face_files[i])
                 textpath=hair_files[i]
+            else:
+                hair_file=None
 
             if sketch_use:
                 sketch_file=file_or_none(os.path.join(data_path,'sketch'),sketch_files[i])
@@ -195,6 +200,8 @@ def paired_data_loader(data_path,face_use=None,hair_use=None,text_use=None,sketc
                         text=text_dict[text_dict[i]]
                     except:
                         text=None
+            else:
+                text=None
             data_points=[face_file,hair_file,sketch_file,text]
             modalities=[face_use,hair_use,text_use, sketch_use]
             paired_data.append([data_points, modalities])
@@ -219,5 +226,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     data = paired_data_loader(args.data_path,args.hair_map,args.face_map,args.text,args.sketch_map)
     for i in range(len(data)):
-        print(data[i][1])
         multimodal.face_images(data[i][0][3],data[i][0][0],data[i][0][1],data[i][0][2],data[i][1],args.num_samples)
