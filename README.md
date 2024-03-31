@@ -49,7 +49,7 @@ conda env create -f environment.yml
 
 Please download the pretrained models using
 ```
-python download_models.py
+python utils/download_models.py
 ```
 
 
