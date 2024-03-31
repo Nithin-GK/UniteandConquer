@@ -55,8 +55,8 @@ python download_models.py
 
 # Training On custom datasets 
 
-## Data Preparation- Testing
-You can test on any custom datasets by arranding the data in the following format. Please note that you can choose to give either one or more modalities
+## Data Preparation- Training
+You can train on any custom datasets by arranging the data in the following format. Please note that you can choose to give either one or more modalities
 ```
     ├── data 
     |   ├── images
@@ -74,7 +74,7 @@ CUDA_VISIBLE_DEVICES="0" NCCL_P2P_DISABLE=1  torchrun --nproc_per_node=1 --maste
 # Testing On custom datasets 
 
 ## Data Preparation- Testing
-You can test on any custom datasets by arranding the data in the following format. Please note that you can choose to give either one or more modalities
+You can test on any custom datasets by arranging the data in the following format. Please note that you can choose to give either one or more modalities
 ```
     ├── data 
     |   ├── face_map 
